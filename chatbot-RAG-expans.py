@@ -65,17 +65,11 @@ else:
 
 #5. define a function to augment the query with retrieved documents.
 def augment_query_generated(query):
-    retrieved_documents = collection.query(
-        query_texts=[query],
-        n_results=5
-    )['documents'][0]
 
-    context = "\n\n".join(retrieved_documents)
-
-    prompt = """You are a helpful expert assistant. Provide an example answer to the given question, that is based on the information in the provided context. If the context does not contain enough information to answer the question, say "I don't know" and do not make up an answer."""
+    prompt = """You are a helpful expert assistant. Provide an example answer to the given question, that might be found generally.If you don't know the answer, say "I don't knowdo not make up an answer."""
     messages = [
         {"role": "system", "content": prompt},
-        {"role": "user", "content": f"Context: {context}\n\nQuestion: {query}"}
+        {"role": "user", "content": f"Question: {query}"}
     ]
 
     response = openai_client.chat.completions.create(
