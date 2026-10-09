@@ -46,8 +46,12 @@ else:
         metadatas = []
 
         for row in reader:
-            # convert row to a searchable text string
-            text = " | ".join(f"{key}: {value}" for key, value in row.items() if value is not None)
+            text_parts = []
+            for key, value in row.items():
+                if value is not None and str(value).strip() != "":
+                    text_parts.append(f"{key}: {value}")
+
+            text = " | ".join(text_parts)
 
             ids.append(str(uuid.uuid4()))
             documents.append(text)
